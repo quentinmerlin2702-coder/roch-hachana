@@ -41,8 +41,20 @@ async function readOrders(): Promise<Order[]> {
 }
 
 async function writeOrders(orders: Order[]): Promise<void> {
-  await fs.mkdir(path.dirname(ORDERS_FILE), { recursive: true });
-  await fs.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2), "utf8");
+  // Sur une plateforme serverless comme Vercel, le système de fichiers est en
+  // lecture seule (sauf /tmp) : cette écriture échoue systématiquement en
+  // production. C'est attendu — Supabase est la vraie base de données ;
+  // data/orders.json n'est qu'une copie de secours utile en local. On ne
+  // fait donc jamais échouer la commande si cette écriture est impossible.
+  try {
+    await fs.mkdir(path.dirname(ORDERS_FILE), { recursive: true });
+    await fs.writeFile(ORDERS_FILE, JSON.stringify(orders, null, 2), "utf8");
+  } catch (err) {
+    console.warn(
+      "[orders] Écriture locale (data/orders.json) impossible — normal sur Vercel/production :",
+      err instanceof Error ? err.message : err
+    );
+  }
 }
 
 export async function POST(request: NextRequest) {
