@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fbf3e3;
+  --foreground: #2a1610;
+
+  /* Miel (honey) */
+  --color-honey-50: #fff8e7;
+  --color-honey-100: #fdebbe;
+  --color-honey-200: #fbdd8e;
+  --color-honey-300: #f7c860;
+  --color-honey-400: #f3b23e;
+  --color-honey-500: #e8971f;
+  --color-honey-600: #c97a15;
+  --color-honey-700: #a35f12;
+  --color-honey-800: #7c4812;
+  --color-honey-900: #5c3712;
+
+  /* Grenat (garnet) */
+  --color-garnet-50: #fbeaea;
+  --color-garnet-100: #f2c9cc;
+  --color-garnet-200: #e29ca2;
+  --color-garnet-300: #cd6a73;
+  --color-garnet-400: #b03f4a;
+  --color-garnet-500: #8f2530;
+  --color-garnet-600: #7a1f2b;
+  --color-garnet-700: #611825;
+  --color-garnet-800: #48121c;
+  --color-garnet-900: #2c0a10;
+  --color-garnet-950: #1c0509;
+
+  /* Or (gold) — accents premium */
+  --color-gold-50: #fbf6e8;
+  --color-gold-100: #f3e6bd;
+  --color-gold-200: #e9d28c;
+  --color-gold-300: #ddb85e;
+  --color-gold-400: #d4af37;
+  --color-gold-500: #b8912a;
+  --color-gold-600: #997520;
+  --color-gold-700: #765a19;
+  --color-gold-800: #544012;
+  --color-gold-900: #33270b;
+
+  /* Crème (cream) */
+  --color-cream-50: #fffdf8;
+  --color-cream-100: #fdf6e9;
+  --color-cream-200: #fbf3e3;
+  --color-cream-300: #f3e3c5;
+  --color-cream-400: #e9d3a3;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-honey-50: var(--color-honey-50);
+  --color-honey-100: var(--color-honey-100);
+  --color-honey-200: var(--color-honey-200);
+  --color-honey-300: var(--color-honey-300);
+  --color-honey-400: var(--color-honey-400);
+  --color-honey-500: var(--color-honey-500);
+  --color-honey-600: var(--color-honey-600);
+  --color-honey-700: var(--color-honey-700);
+  --color-honey-800: var(--color-honey-800);
+  --color-honey-900: var(--color-honey-900);
+
+  --color-garnet-50: var(--color-garnet-50);
+  --color-garnet-100: var(--color-garnet-100);
+  --color-garnet-200: var(--color-garnet-200);
+  --color-garnet-300: var(--color-garnet-300);
+  --color-garnet-400: var(--color-garnet-400);
+  --color-garnet-500: var(--color-garnet-500);
+  --color-garnet-600: var(--color-garnet-600);
+  --color-garnet-700: var(--color-garnet-700);
+  --color-garnet-800: var(--color-garnet-800);
+  --color-garnet-900: var(--color-garnet-900);
+  --color-garnet-950: var(--color-garnet-950);
+
+  --color-gold-50: var(--color-gold-50);
+  --color-gold-100: var(--color-gold-100);
+  --color-gold-200: var(--color-gold-200);
+  --color-gold-300: var(--color-gold-300);
+  --color-gold-400: var(--color-gold-400);
+  --color-gold-500: var(--color-gold-500);
+  --color-gold-600: var(--color-gold-600);
+  --color-gold-700: var(--color-gold-700);
+  --color-gold-800: var(--color-gold-800);
+  --color-gold-900: var(--color-gold-900);
+
+  --color-cream-50: var(--color-cream-50);
+  --color-cream-100: var(--color-cream-100);
+  --color-cream-200: var(--color-cream-200);
+  --color-cream-300: var(--color-cream-300);
+  --color-cream-400: var(--color-cream-400);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fraunces);
+}
+
+body {
+  background-color: var(--color-cream-100);
+  background-image:
+    radial-gradient(
+      ellipse 1200px 800px at 50% -10%,
+      var(--color-cream-50),
+      transparent 60%
+    ),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.30  0 0 0 0 0.18  0 0 0 0 0.08  0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-blend-mode: normal, overlay;
+  color: var(--foreground);
+}
+
+/* Filet ornemental doré, utilisé pour séparer les sections avec élégance. */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.ornament-divider::before,
+.ornament-divider::after {
+  content: "";
+  height: 1px;
+  width: 2.5rem;
+  background: linear-gradient(
+    to var(--ornament-direction, right),
+    transparent,
+    var(--color-gold-400)
+  );
+}
+.ornament-divider::after {
+  --ornament-direction: left;
+}
+
+::selection {
+  background: var(--color-gold-300);
+  color: var(--color-garnet-900);
+}

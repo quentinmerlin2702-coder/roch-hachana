@@ -1,0 +1,56 @@
+[
+  {
+    "id": "p1",
+    "slug": "corbeille-classique",
+    "name": "La Classique",
+    "price": 99,
+    "image": "/images/panier-classique.svg",
+    "badge": "Format généreux",
+    "shortDescription": "Une belle sélection de produits casher et de qualité, signée par notre tableau calligraphié.",
+    "description": "La corbeille Classique réunit une sélection soignée de produits casher pour célébrer Roch Hachana : douceurs, fruits de saison, vin et accessoires de présentation. Comme toutes nos corbeilles, elle est signée par notre tableau calligraphié à la main d'une lettre hébraïque — ce qui rend chaque création unique. Un format généreux et élégant, prêt à offrir.",
+    "contents": [
+      "Corbeille et ses accessoires",
+      "Tableau calligraphié d'une lettre hébraïque (signature de la maison)",
+      "Chips saveur truffe (125g)",
+      "Grenade fraîche",
+      "Pommes fraîches (2 à 3 pièces)",
+      "Grappe de raisin",
+      "Nougat",
+      "Huile d'olive (petit format)",
+      "Chocolat Jeym (100g)",
+      "Miel San Miguel",
+      "Moscato",
+      "Jus de raisin Yarden",
+      "Crackers à l'huile d'olive Laurieri (175g)"
+    ]
+  },
+  {
+    "id": "p2",
+    "slug": "corbeille-premium",
+    "name": "La Premium",
+    "price": 149,
+    "image": "/images/panier-premium.svg",
+    "badge": "Notre plus belle corbeille",
+    "shortDescription": "Notre plus belle corbeille : plus grande, plus généreuse, signée par notre tableau calligraphié.",
+    "description": "La corbeille Premium est notre composition la plus luxueuse : plus grande et plus riche que la Classique, elle réunit des produits fins et casher — boutargue, chocolat, thon Ortiz, boukha, moscato. Elle est signée par notre tableau calligraphié à la main d'une lettre hébraïque, pour un cadeau d'exception.",
+    "contents": [
+      "Jolie corbeille et ses accessoires",
+      "Tableau calligraphié d'une lettre hébraïque (signature de la maison)",
+      "Chips saveur truffe (125g)",
+      "Grenade fraîche",
+      "Pommes fraîches (2 à 3 pièces)",
+      "Grappe de raisin",
+      "Huile d'olive (grand format)",
+      "Nougat",
+      "Chocolat Damyel (100g)",
+      "Boutargue « So Boutargue »",
+      "Moscato",
+      "Miel San Miguel",
+      "Petite boukha",
+      "Mini anisette",
+      "Thon Ortiz",
+      "Jus de raisin Yarden",
+      "Crackers à l'huile d'olive"
+    ]
+  }
+]

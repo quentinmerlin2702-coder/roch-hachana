@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="g6bfiut" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2c0a10"/>
+      <stop offset="100%" stop-color="#1c0509"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#g6bfiut)"/>
+  <circle cx="120" cy="480" r="180" fill="#d4af37" opacity="0.05"/>
+  <circle cx="700" cy="80" r="150" fill="#d4af37" opacity="0.05"/>
+  <rect x="28" y="28" width="744" height="544" fill="none" stroke="#d4af37" stroke-width="1" opacity="0.35"/>
+  <polygon points="400,230 460.6217782649107,335 339.3782217350893,335" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.55"/>
+  <polygon points="400,370 339.3782217350893,265 460.6217782649107,265" fill="none" stroke="#d4af37" stroke-width="1.5" opacity="0.55"/>
+  <text x="400" y="440" font-size="30" letter-spacing="3" font-family="Georgia,'Times New Roman',serif" fill="#f3e6bd" text-anchor="middle" font-weight="600">LA CLASSIQUE</text>
+</svg>
