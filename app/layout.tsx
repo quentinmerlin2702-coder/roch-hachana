@@ -61,7 +61,7 @@ export default function RootLayout({
       lang="fr"
       className={`${geistSans.variable} ${fraunces.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-cream-200 font-sans text-[#3a1e14]">
+      <body className="flex min-h-full flex-col font-sans text-[#3a1e14]">
         <TopBanner />
         <Header />
         <main className="flex-1">{children}</main>
