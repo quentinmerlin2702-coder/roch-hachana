@@ -179,6 +179,71 @@ peuvent classer les emails partant de `onboarding@resend.dev` en spam.
 commandes sont toujours enregistrées, seul l'envoi des deux emails est ignoré
 (avertissement dans les logs du serveur).
 
+## Suivi des commandes dans un Google Doc
+
+Chaque commande peut aussi être écrite automatiquement en haut d'un Google
+Doc (le plus récent en premier), en plus de Supabase et des emails — pratique
+pour tout voir d'un coup d'œil sans ouvrir Supabase.
+
+Cela fonctionne via un petit script **Google Apps Script** directement relié
+à votre document (pas besoin de compte Google Cloud ni de clé d'API
+compliquée).
+
+### Installation (une seule fois)
+
+1. Ouvrez votre Google Doc de suivi.
+2. Menu **Extensions → Apps Script**. Un nouvel onglet s'ouvre avec un
+   éditeur de code.
+3. Effacez le contenu par défaut (`function myFunction() {}`) et collez à la
+   place tout le contenu du fichier **`google-apps-script/suivi-commandes.gs`**
+   fourni dans ce projet.
+4. Cliquez l'icône **💾 Enregistrer** (ou Ctrl+S), donnez un nom au projet si
+   demandé (ex : "Suivi commandes").
+5. Cliquez **Déployer → Nouveau déploiement**.
+6. Cliquez l'icône ⚙️ à côté de "Sélectionner le type", choisissez
+   **"Application Web"**.
+7. Réglez : **Exécuter en tant que** = "Moi" ; **Qui a accès** =
+   **"Tout le monde"** (nécessaire pour que le site puisse lui envoyer les
+   commandes).
+8. Cliquez **Déployer**. Google va demander d'**autoriser l'accès** au script
+   sur votre document — acceptez (c'est votre propre script, sur votre
+   propre document).
+9. Une **URL** s'affiche (elle ressemble à
+   `https://script.google.com/macros/s/AKfycb.../exec`) — copiez-la.
+10. Mettez cette URL dans `GOOGLE_DOC_WEBHOOK_URL` (dans `.env.local` en
+    local, et dans les variables d'environnement Vercel en production —
+    même procédure que pour les autres clés ci-dessus).
+
+Si vous modifiez le script plus tard, il faut créer un **nouveau
+déploiement** (Déployer → Gérer les déploiements → ✏️ → Nouvelle version)
+pour que les changements soient pris en compte.
+
+**Sans `GOOGLE_DOC_WEBHOOK_URL` configurée, le site fonctionne normalement**,
+seule l'écriture dans le Google Doc est ignorée.
+
+## Espace "Commandes" (/admin)
+
+Une page **`/admin`** liste toutes les commandes enregistrées dans Supabase,
+dans une présentation lisible (client, téléphone, adresse, produits, total,
+message cadeau), avec un bouton pour marquer chaque commande "payée" ou "en
+attente". C'est une alternative plus agréable au Table Editor de Supabase,
+pensée pour être **partagée avec vos associés**.
+
+Elle est protégée par un identifiant + mot de passe (authentification
+basique du navigateur — une fenêtre de connexion s'affiche à l'ouverture de
+la page). Par défaut :
+
+- Utilisateur : `corbeilles`
+- Mot de passe : `RochHachana2026!`
+
+Pour changer ces identifiants, définissez `ADMIN_USERNAME` et
+`ADMIN_PASSWORD` dans `.env.local` (local) et dans les variables
+d'environnement Vercel (production) — voir `.env.local.example`.
+
+⚠️ Ne partagez le lien `https://votresite/admin` (et le mot de passe) qu'aux
+personnes de confiance : cette page donne accès aux coordonnées de vos
+clients.
+
 ## Retrait ou livraison
 
 Lors de la commande, le client choisit :

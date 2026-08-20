@@ -24,7 +24,7 @@ function getSupabaseAdmin() {
 }
 
 /** Représentation d'une commande telle que stockée dans la table `orders`. */
-type OrderRow = {
+export type OrderRow = {
   order_number: string;
   created_at: string;
   customer_name: string;
@@ -88,4 +88,49 @@ export async function saveOrderToSupabase(order: Order): Promise<void> {
   if (error) {
     console.error("[supabase] Échec de l'enregistrement de la commande :", error);
   }
+}
+
+/**
+ * Récupère toutes les commandes depuis Supabase, les plus récentes en
+ * premier — utilisé par l'espace "Commandes" protégé (app/admin).
+ * Retourne `null` si Supabase n'est pas configuré ou en cas d'erreur.
+ */
+export async function getOrdersFromSupabase(): Promise<OrderRow[] | null> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return null;
+
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("[supabase] Échec de la lecture des commandes :", error);
+    return null;
+  }
+
+  return data as OrderRow[];
+}
+
+/**
+ * Met à jour le statut de paiement d'une commande (utilisé par le bouton
+ * "Marquer payée" de l'espace Commandes). Retourne `true` en cas de succès.
+ */
+export async function updateOrderPaymentStatus(
+  orderNumber: string,
+  status: "pending" | "paid"
+): Promise<boolean> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return false;
+
+  const { error } = await supabase
+    .from("orders")
+    .update({ payment_status: status })
+    .eq("order_number", orderNumber);
+
+  if (error) {
+    console.error("[supabase] Échec de la mise à jour du statut de paiement :", error);
+    return false;
+  }
+  return true;
 }

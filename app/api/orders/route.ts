@@ -13,6 +13,7 @@ import { sendOrderConfirmationEmail, sendOrderNotificationEmail } from "@/lib/em
 import { DELIVERY_FEE } from "@/lib/config";
 import { getPromoCode } from "@/lib/promo";
 import { saveOrderToSupabase } from "@/lib/supabase";
+import { sendOrderToGoogleDoc } from "@/lib/google-doc";
 
 // Codes postaux parisiens (75001 à 75020, + 75116 pour le 16ᵉ arrondissement).
 const PARIS_POSTAL_CODE = /^(750(0[1-9]|1[0-9]|20)|75116)$/;
@@ -213,6 +214,7 @@ export async function POST(request: NextRequest) {
   await saveOrderToSupabase(order);
   await sendOrderNotificationEmail(order);
   await sendOrderConfirmationEmail(order);
+  await sendOrderToGoogleDoc(order);
 
   return NextResponse.json(order, { status: 201 });
 }
