@@ -4,6 +4,7 @@ import { formatPrice } from "@/lib/format";
 import { PAYMENT_METHOD_LABELS, PAYMENT_STATUS_LABELS } from "@/lib/payment";
 import type { PaymentMethod, PaymentStatus } from "@/lib/types";
 import PaymentStatusToggle from "@/components/admin/PaymentStatusToggle";
+import DeleteOrderButton from "@/components/admin/DeleteOrderButton";
 
 export const metadata: Metadata = {
   title: "Commandes — Les Douceurs de Roch Hachana",
@@ -49,9 +50,12 @@ export default async function AdminOrdersPage() {
                 <span className="font-display text-lg font-bold text-garnet-800">
                   {order.order_number}
                 </span>
-                <span className="text-xs text-honey-900/60">
-                  {new Date(order.created_at).toLocaleString("fr-FR")}
-                </span>
+                <div className="flex items-center gap-3">
+                  <span className="text-xs text-honey-900/60">
+                    {new Date(order.created_at).toLocaleString("fr-FR")}
+                  </span>
+                  <DeleteOrderButton orderNumber={order.order_number} />
+                </div>
               </div>
 
               <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">

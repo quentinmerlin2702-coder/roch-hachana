@@ -134,3 +134,21 @@ export async function updateOrderPaymentStatus(
   }
   return true;
 }
+
+/**
+ * Supprime définitivement une commande de Supabase (utilisé par le bouton
+ * "✕" de l'espace Commandes, pour retirer les commandes de test). Retourne
+ * `true` en cas de succès.
+ */
+export async function deleteOrderFromSupabase(orderNumber: string): Promise<boolean> {
+  const supabase = getSupabaseAdmin();
+  if (!supabase) return false;
+
+  const { error } = await supabase.from("orders").delete().eq("order_number", orderNumber);
+
+  if (error) {
+    console.error("[supabase] Échec de la suppression de la commande :", error);
+    return false;
+  }
+  return true;
+}
