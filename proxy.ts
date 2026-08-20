@@ -8,11 +8,11 @@ import { NextRequest, NextResponse } from "next/server";
  * Identifiants par défaut (à changer via les variables d'environnement
  * ADMIN_USERNAME / ADMIN_PASSWORD — voir .env.local.example) :
  *   utilisateur : corbeilles
- *   mot de passe : RochHachana2026!
+ *   mot de passe : Hababou2655
  */
 export function proxy(request: NextRequest) {
   const expectedUser = process.env.ADMIN_USERNAME || "corbeilles";
-  const expectedPass = process.env.ADMIN_PASSWORD || "RochHachana2026!";
+  const expectedPass = process.env.ADMIN_PASSWORD || "Hababou2655";
 
   const authHeader = request.headers.get("authorization");
 

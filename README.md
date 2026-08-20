@@ -234,7 +234,7 @@ basique du navigateur — une fenêtre de connexion s'affiche à l'ouverture de
 la page). Par défaut :
 
 - Utilisateur : `corbeilles`
-- Mot de passe : `RochHachana2026!`
+- Mot de passe : `Hababou2655`
 
 Pour changer ces identifiants, définissez `ADMIN_USERNAME` et
 `ADMIN_PASSWORD` dans `.env.local` (local) et dans les variables
