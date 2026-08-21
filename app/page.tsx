@@ -4,6 +4,7 @@ import { getProducts } from "@/lib/products";
 import { StarOfDavidIcon, FeatherIcon, DeliveryIcon } from "@/components/Icons";
 import { BranchMotif, PomegranateMotif } from "@/components/Motifs";
 import Reveal from "@/components/Reveal";
+import Faq from "@/components/Faq";
 
 const steps = [
   {
@@ -190,13 +191,40 @@ export default function HomePage() {
             généreuse.
           </p>
         </Reveal>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-12">
           {products.map((product, i) => (
-            <Reveal key={product.id} delay={i * 100}>
+            <Reveal
+              key={product.id}
+              delay={i * 100}
+              className={
+                product.slug === "corbeille-premium"
+                  ? "sm:col-span-7"
+                  : "sm:col-span-5"
+              }
+            >
               <ProductCard product={product} />
             </Reveal>
           ))}
         </div>
+      </section>
+
+      <div className="ornament-divider py-1 text-gold-400">
+        <StarOfDavidIcon className="h-3.5 w-3.5" />
+      </div>
+
+      {/* FAQ */}
+      <section className="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+        <Reveal className="mb-12 text-center">
+          <span className="text-xs font-semibold uppercase tracking-[0.22em] text-gold-600">
+            Vos questions
+          </span>
+          <h2 className="mt-3 font-display text-2xl font-bold text-garnet-800 sm:text-3xl">
+            Questions fréquentes
+          </h2>
+        </Reveal>
+        <Reveal delay={100}>
+          <Faq />
+        </Reveal>
       </section>
     </div>
   );

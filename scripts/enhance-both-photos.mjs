@@ -2,63 +2,37 @@ import sharp from "sharp";
 
 const SRC = "C:/Users/josep/Pictures/Screenshots/Capture d'écran 2026-08-21 152043.png";
 
-// Recadrages "produit net" par panneau (coordonnées combinées : décalage du
-// panneau dans le montage original + recadrage propre à chaque photo — un
-// seul extract() combiné, car sharp n'applique pas resize() correctement
-// après deux extract() chaînés).
+// Vrai dézoom : on garde la quasi-totalité de chaque photo réelle, on
+// retire uniquement les éléments d'interface (bandeau prix en haut, fine
+// bordure blanche du carrousel sur le bord, pastille de pagination tout en
+// bas) — pas de recadrage serré ni de montage artificiel. Les deux photos
+// sont traitées avec exactement le même niveau de cadrage, donc la
+// différence de taille/richesse entre les deux corbeilles vient uniquement
+// de ce qui est réellement sur la photo.
 const PANELS = {
   classique: {
-    rect: { left: 16, top: 115, width: 643, height: 805 },
-    // Fraction de la hauteur du canevas final occupée par la corbeille :
-    // plus petite ici pour bien montrer que la Classique est plus compacte.
-    fillHeight: 0.66,
-    outFile: "C:/Users/josep/paniers-rosh/public/images/panier-classique.jpg",
+    rect: { left: 15, top: 118, width: 646, height: 867 },
+    outFile: "C:/Users/josep/paniers-rosh/public/images/panier-classique-source.jpg",
   },
   premium: {
-    rect: { left: 665 + 18, top: 85, width: 642, height: 870 },
-    // Plus grande ici : la Premium doit remplir presque tout le cadre.
-    fillHeight: 0.95,
-    outFile: "C:/Users/josep/paniers-rosh/public/images/panier-premium.jpg",
+    rect: { left: 665 + 18, top: 78, width: 642, height: 900 },
+    outFile: "C:/Users/josep/paniers-rosh/public/images/panier-premium-source.jpg",
   },
 };
 
-const CANVAS_W = 1600;
-const CANVAS_H = 1200;
-
-async function processPanel(name, { rect, fillHeight, outFile }) {
-  const cropped = sharp(SRC).extract(rect);
-
-  // Photo nette (premier plan), nettoyée et légèrement rehaussée.
-  const fgHeight = Math.round(CANVAS_H * fillHeight);
-  const fg = await cropped
-    .clone()
-    .resize({ height: fgHeight * 2, kernel: sharp.kernel.lanczos3 }) // sur-échantillonne avant nettoyage
+async function processPanel(name, { rect, outFile }) {
+  await sharp(SRC)
+    .extract(rect)
+    .resize({ width: 1800, kernel: sharp.kernel.lanczos3 })
     .median(1)
     .sharpen({ sigma: 1.1, m1: 1.1, m2: 0.5 })
     .modulate({ brightness: 1.03, saturation: 1.08 })
     .linear(1.04, -5)
-    .resize({ height: fgHeight, kernel: sharp.kernel.lanczos3 }) // taille finale d'affichage
-    .jpeg({ quality: 95 })
-    .toBuffer();
-  const fgMeta = await sharp(fg).metadata();
-
-  // Fond : la même photo, très floutée et assombrie, en plein cadre —
-  // donne l'impression d'un léger recul de caméra (flou de profondeur de
-  // champ), sans bordure ni cadre visible.
-  const bg = await cropped
-    .clone()
-    .resize({ width: CANVAS_W, height: CANVAS_H, fit: "cover" })
-    .blur(55)
-    .modulate({ brightness: 0.88, saturation: 1.12 })
-    .jpeg({ quality: 90 })
-    .toBuffer();
-
-  await sharp(bg)
-    .composite([{ input: fg, gravity: "center" }])
-    .jpeg({ quality: 95 })
+    .jpeg({ quality: 95, chromaSubsampling: "4:4:4" })
     .toFile(outFile);
 
-  console.log(`${name}: premier plan ${fgMeta.width}x${fgMeta.height} sur canevas ${CANVAS_W}x${CANVAS_H} -> ${outFile}`);
+  const meta = await sharp(outFile).metadata();
+  console.log(`${name}: ${meta.width} x ${meta.height} -> ${outFile}`);
 }
 
 for (const [name, cfg] of Object.entries(PANELS)) {

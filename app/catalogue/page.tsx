@@ -23,9 +23,18 @@ export default function CataloguePage() {
           Hachana.
         </p>
       </div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-12">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
+          <div
+            key={product.id}
+            className={
+              product.slug === "corbeille-premium"
+                ? "sm:col-span-7"
+                : "sm:col-span-5"
+            }
+          >
+            <ProductCard product={product} />
+          </div>
         ))}
       </div>
     </div>

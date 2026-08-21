@@ -5,6 +5,7 @@ import { getProductBySlug, getProducts } from "@/lib/products";
 import { formatPrice } from "@/lib/format";
 import AddToCartButton from "@/components/AddToCartButton";
 import { FeatherIcon, StarOfDavidIcon } from "@/components/Icons";
+import { SHOP_NAME } from "@/lib/config";
 
 type ProductPageProps = {
   params: Promise<{ slug: string }>;
@@ -29,8 +30,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description,
+    image: product.image,
+    brand: { "@type": "Brand", name: SHOP_NAME },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "EUR",
+      price: product.price,
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav className="mb-5 text-sm text-honey-900/60">
         <Link href="/catalogue" className="hover:text-garnet-700">
           Catalogue
