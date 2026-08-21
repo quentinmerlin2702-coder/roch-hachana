@@ -6,11 +6,10 @@ const OUT = "C:/Users/josep/paniers-rosh/public/images/panier-classique-source.j
 const meta = await sharp(SRC).metadata();
 console.log("Source:", meta.width, "x", meta.height);
 
-// Retire les fines bordures sombres du screenshot en haut/bas, garde tout
-// le reste (photo déjà sur fond clair, avec des accessoires de mise en
-// scène sur les côtés qui seront exclus par le détourage).
+// Retire les fines bordures noires du screenshot sur les 4 côtés (haut,
+// bas, gauche, droite), garde tout le reste (photo déjà sur fond clair).
 await sharp(SRC)
-  .extract({ left: 0, top: 14, width: meta.width, height: meta.height - 28 })
+  .extract({ left: 18, top: 14, width: meta.width - 36, height: meta.height - 28 })
   .resize({ width: 1800, kernel: sharp.kernel.lanczos3 })
   .median(1)
   .sharpen({ sigma: 1.0, m1: 1.0, m2: 0.5 })

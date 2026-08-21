@@ -61,12 +61,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
       </nav>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-        <div className="relative aspect-[3/4] w-full overflow-hidden rounded-3xl bg-gradient-to-b from-cream-50 to-cream-200 shadow-sm">
+        <div className="relative aspect-[2/3] w-full overflow-hidden rounded-3xl bg-gradient-to-b from-cream-50 to-cream-200 shadow-sm">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={product.image}
             alt={product.name}
-            className="h-full w-full object-contain p-6 sm:p-8"
+            className="h-full w-full object-contain p-2"
           />
           {product.badge && (
             <span className="absolute left-4 top-4 rounded-full bg-garnet-900/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-gold-200 shadow backdrop-blur-sm">
