@@ -8,12 +8,12 @@ export default function ProductCard({ product }: { product: Product }) {
       href={`/produit/${product.slug}`}
       className="group flex flex-col overflow-hidden rounded-3xl border border-cream-300 bg-cream-50 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-gold-300/60 hover:shadow-md"
     >
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-cream-200">
+      <div className="relative aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-cream-50 to-cream-200">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={product.image}
           alt={product.name}
-          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          className="h-full w-full object-contain p-5 transition duration-500 group-hover:scale-105 sm:p-7"
         />
         {product.badge && (
           <span className="absolute left-3 top-3 rounded-full bg-garnet-900/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-gold-200 shadow backdrop-blur-sm">
