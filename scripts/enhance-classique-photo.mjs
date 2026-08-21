@@ -6,58 +6,30 @@ const OUT = new URL("../public/images/panier-classique.jpg", import.meta.url).pa
 const meta = await sharp(SRC).metadata();
 console.log("Source:", meta.width, "x", meta.height);
 
-// 1. Recadre : enlève le bandeau "classique 99€" en haut, garde un peu de
-//    marge en bas (juste après la corbeille, avant que la table ne devienne
-//    trop présente).
-const cropTop = 128;
-const cropHeight = 522;
+// Recadre directement au format 4:3 (celui utilisé par les fiches produit),
+// centré sur les produits de la corbeille (bouteilles, pots, fruits) — pas
+// de bandeau "classique 99€", pas de bordure, pas de fond flouté : une
+// photo pleine cadre, comme un vrai visuel catalogue.
+const cropTop = 348;
+const cropWidth = meta.width;
+const cropHeight = Math.round((cropWidth * 3) / 4);
 const cropped = sharp(SRC).extract({
   left: 0,
   top: cropTop,
-  width: meta.width,
+  width: cropWidth,
   height: Math.min(cropHeight, meta.height - cropTop),
 });
 
-// 2. Premier plan net : agrandit modérément, nettoie le bruit puis renforce
-//    la netteté (masque flou), léger boost couleur/contraste pour un rendu
-//    plus "premium".
-const fg = await cropped
-  .clone()
-  .resize({ height: 1080, kernel: sharp.kernel.lanczos3 })
+// Agrandissement propre (Lanczos), débruitage léger puis renforcement net
+// de la netteté (masque flou), et un poil plus de contraste/saturation
+// pour un rendu catalogue.
+await cropped
+  .resize({ width: 1800, kernel: sharp.kernel.lanczos3 })
   .median(1)
-  .sharpen({ sigma: 1.3, m1: 1.2, m2: 0.6 })
-  .modulate({ brightness: 1.04, saturation: 1.1 })
-  .linear(1.04, -6) // léger boost de contraste
-  .extend({
-    top: 22,
-    bottom: 22,
-    left: 22,
-    right: 22,
-    background: "#fdf6e9",
-  })
-  .jpeg({ quality: 95 })
-  .toBuffer();
-const fgMeta = await sharp(fg).metadata();
-console.log("Premier plan:", fgMeta.width, "x", fgMeta.height);
-
-// 3. Fond ambiant : la même photo, recadrée en "cover" sur tout le canevas
-//    4:3, puis très floutée et assombrie — sert de toile de fond chaude
-//    derrière la photo nette (cache le manque de détail du fond, met le
-//    produit en valeur, façon vitrine).
-const CANVAS_W = 1600;
-const CANVAS_H = 1200;
-const bg = await cropped
-  .clone()
-  .resize({ width: CANVAS_W, height: CANVAS_H, fit: "cover" })
-  .blur(45)
-  .modulate({ brightness: 0.82, saturation: 1.15 })
-  .jpeg({ quality: 90 })
-  .toBuffer();
-
-// 4. Composite : photo nette centrée sur le fond flouté chaud.
-await sharp(bg)
-  .composite([{ input: fg, gravity: "center" }])
-  .jpeg({ quality: 95 })
+  .sharpen({ sigma: 1.4, m1: 1.4, m2: 0.7 })
+  .modulate({ brightness: 1.05, saturation: 1.12 })
+  .linear(1.06, -8)
+  .jpeg({ quality: 95, chromaSubsampling: "4:4:4" })
   .toFile(OUT);
 
 const outMeta = await sharp(OUT).metadata();
